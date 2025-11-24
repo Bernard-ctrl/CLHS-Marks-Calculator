@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLHS Weighted Average Calculator</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+      color: #222;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    main {
+      width: min(960px, 95vw);
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 1.8rem;
+      text-align: center;
+    }
+
+    p.description {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #444;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.5rem;
+    }
+
+    th, td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #e0e0e0;
+      text-align: left;
+    }
+
+    thead th {
+      background: #f0f4ff;
+      font-weight: 600;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #fafafa;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .results {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .result-card {
+      background: #f8fafc;
+      border: 1px solid #dde3f2;
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+    }
+
+    .result-card h2 {
+      margin: 0 0 0.35rem;
+      font-size: 1rem;
+      color: #4c5a99;
+    }
+
+    .result-value {
+      font-size: 1.85rem;
+      font-weight: 700;
+    }
+
+    .footer-note {
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>CLHS Weighted Average Calculator</h1>
+    <p class="description">Enter your latest marks below. The calculator multiplies each score by its official weight (total weight = 52) and updates your weighted average instantly.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th>Weight</th>
+          <th>Your Mark (0-100)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Bahasa Malaysia / Malay Language</td>
+          <td>6</td>
+          <td><input type="number" min="0" max="100" step="0.1" data-weight="6" placeholder="e.g. 85"></td>
+        </tr>
+        <tr>
+          <td>Bahasa Inggeris / English</td>
+          <td>5</td>
+          <td><input type="number" min="0" max="100" step="0.1" data-weight="5" placeholder="e.g. 90"></td>
+        </tr>
+        <tr>
+          <td>Bahasa Cina / Chinese</td>
+          <td>7</td>
+          <td><input type="number" min="0" max="100" step="0.1" data-weight="7" placeholder="e.g. 80"></td>
+        </tr>
+        <tr>
+          <td>Matematik / Mathematics</td>
+          <td>5</td>
+          <td><input type="number" min="0" max="100" step="0.1" data-weight="5" placeholder="e.g. 92"></td>
+        </tr>
+        <tr>
+          <td>Matematik Tambahan / Additional Mathematics</td>
+          <td>4</td>
+          <td><input type="number" min="0" max="100" step="0.1" data-weight="4" placeholder="e.g. 88"></td>
+        </tr>
+        <tr>
+          <td>Fizik / Physics</td>
+          <td>4</td>
+          <td><input type="number" min="0" max="100" step="0.1" data-weight="4" placeholder="e.g. 86"></td>
+        </tr>
+        <tr>
+          <td>Kimia / Chemistry</td>
+          <td>4</td>
+          <td><input type="number" min="0" max="100" step="0.1" data-weight="4" placeholder="e.g. 78"></td>
+        </tr>
+        <tr>
+          <td>Sejarah / History</td>
+          <td>3</td>
+          <td><input type="number" min="0" max="100" step="0.1" data-weight="3" placeholder="e.g. 74"></td>
+        </tr>
+        <tr>
+          <td>Pendidikan Moral / Moral Education</td>
+          <td>3</td>
+          <td><input type="number" min="0" max="100" step="0.1" data-weight="3" placeholder="e.g. 83"></td>
+        </tr>
+        <tr>
+          <td>Pendidikan Jasmani &amp; Kesihatan / Health &amp; P.E.</td>
+          <td>2</td>
+          <td><input type="number" min="0" max="100" step="0.1" data-weight="2" placeholder="e.g. 95"></td>
+        </tr>
+        <tr>
+          <td>Kokurikulum / Co-curriculum</td>
+          <td>5</td>
+          <td><input type="number" min="0" max="100" step="0.1" data-weight="5" placeholder="e.g. 88"></td>
+        </tr>
+        <tr>
+          <td>Sains Komputer / Computer Science</td>
+          <td>4</td>
+          <td><input type="number" min="0" max="100" step="0.1" data-weight="4" placeholder="e.g. 91"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <section class="results">
+      <div class="result-card">
+        <h2>Weighted Sum</h2>
+        <div class="result-value" id="weightedSum">0.00</div>
+        <p>Sum of (mark × weight).</p>
+      </div>
+      <div class="result-card">
+        <h2>Average Mark</h2>
+        <div class="result-value" id="averageMark">0.00</div>
+        <p>Weighted sum ÷ 52.</p>
+      </div>
+    </section>
+
+    <p class="footer-note">Tip: leave a field blank if you do not have the mark yet. It will be treated as 0 until you fill it in.</p>
+  </main>
+
+  <script>
+    const TOTAL_WEIGHT = 52;
+    const inputs = document.querySelectorAll('input[data-weight]');
+    const weightedSumEl = document.getElementById('weightedSum');
+    const averageEl = document.getElementById('averageMark');
+
+    const formatNumber = (value) => Number.parseFloat(value).toFixed(2);
+
+    const calculateAverage = () => {
+      let weightedTotal = 0;
+      inputs.forEach((input) => {
+        const mark = Number.parseFloat(input.value);
+        if (!Number.isNaN(mark)) {
+          weightedTotal += mark * Number(input.dataset.weight);
+        }
+      });
+      const average = weightedTotal / TOTAL_WEIGHT;
+      weightedSumEl.textContent = formatNumber(weightedTotal);
+      averageEl.textContent = formatNumber(Number.isFinite(average) ? average : 0);
+    };
+
+    inputs.forEach((input) => {
+      input.addEventListener('input', calculateAverage);
+    });
+  </script>
+</body>
+</html>
