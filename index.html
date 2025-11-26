@@ -202,11 +202,21 @@
 
   <script>
     const TOTAL_WEIGHT = 52;
+    const STORAGE_KEY = 'clhs-marks-v1';
     const inputs = document.querySelectorAll('input[data-weight]');
     const weightedSumEl = document.getElementById('weightedSum');
     const averageEl = document.getElementById('averageMark');
 
     const formatNumber = (value) => Number.parseFloat(value).toFixed(2);
+
+    const saveInputs = () => {
+      const values = Array.from(inputs).map((i) => i.value);
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(values));
+      } catch (e) {
+        // ignore storage errors (e.g., quota, private mode)
+      }
+    };
 
     const calculateAverage = () => {
       let weightedTotal = 0;
@@ -219,11 +229,32 @@
       const average = weightedTotal / TOTAL_WEIGHT;
       weightedSumEl.textContent = formatNumber(weightedTotal);
       averageEl.textContent = formatNumber(Number.isFinite(average) ? average : 0);
+      saveInputs();
+    };
+
+    const restoreInputs = () => {
+      try {
+        const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+        if (Array.isArray(stored)) {
+          inputs.forEach((input, i) => {
+            // only set if a stored value exists (allow blank to stay blank)
+            if (stored[i] !== undefined && stored[i] !== '') {
+              input.value = stored[i];
+            }
+          });
+        }
+      } catch (e) {
+        // ignore JSON parse errors
+      }
+      calculateAverage();
     };
 
     inputs.forEach((input) => {
       input.addEventListener('input', calculateAverage);
     });
+
+    // Restore saved marks on load
+    restoreInputs();
   </script>
 </body>
 </html>
