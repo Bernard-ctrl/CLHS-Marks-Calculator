@@ -6,15 +6,22 @@
   <title>CLHS Weighted Average Calculator</title>
   <style>
     :root {
-      color-scheme: light dark;
+      color-scheme: light;
+      --bg: #eef3fa;
+      --panel: #ffffff;
+      --ink: #18212f;
+      --muted: #5b6475;
+      --line: #d9e2f0;
+      --accent: #0f4c81;
+      --accent-soft: #e8f1fb;
     }
 
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       margin: 0;
-      padding: 0;
-      background: #f5f5f5;
-      color: #222;
+      padding: 1.5rem;
+      background: radial-gradient(circle at top, #f9fbff 0, var(--bg) 45%, #e7edf5 100%);
+      color: var(--ink);
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -22,11 +29,12 @@
     }
 
     main {
-      width: min(960px, 95vw);
-      background: #fff;
+      width: min(980px, 100%);
+      background: rgba(255, 255, 255, 0.96);
       padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+      border-radius: 20px;
+      border: 1px solid rgba(217, 226, 240, 0.9);
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
     }
 
     h1 {
@@ -37,8 +45,48 @@
 
     p.description {
       text-align: center;
-      margin-bottom: 1.5rem;
-      color: #444;
+      margin-bottom: 1.25rem;
+      color: var(--muted);
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin: 1.25rem 0 1rem;
+    }
+
+    .control-group {
+      flex: 1 1 260px;
+    }
+
+    select {
+      width: 100%;
+      padding: 0.8rem 0.9rem;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      font-size: 1rem;
+      color: var(--ink);
+    }
+
+    .form-meta {
+      flex: 0 1 auto;
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      background: var(--accent-soft);
+      border: 1px solid #cfe0f5;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
     }
 
     table {
@@ -51,6 +99,13 @@
       padding: 0.75rem;
       border-bottom: 1px solid #e0e0e0;
       text-align: left;
+      vertical-align: middle;
+    }
+
+    th.selection-col,
+    td.selection-col {
+      text-align: center;
+      width: 5.5rem;
     }
 
     thead th {
@@ -70,22 +125,47 @@
 
     input[type="number"] {
       width: 100%;
+      max-width: 180px;
       padding: 0.5rem;
       border: 1px solid #ccc;
       border-radius: 6px;
       font-size: 1rem;
     }
 
+    input[type="checkbox"] {
+      width: 1.05rem;
+      height: 1.05rem;
+      accent-color: var(--accent);
+      vertical-align: middle;
+    }
+
+    .required-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.28rem 0.55rem;
+      border-radius: 999px;
+      background: #edf4fd;
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .subject-cell {
+      font-weight: 600;
+    }
+
     .results {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 1rem;
+      margin-top: 1rem;
     }
 
     .result-card {
       background: #f8fafc;
       border: 1px solid #dde3f2;
-      border-radius: 10px;
+      border-radius: 14px;
       padding: 1rem 1.25rem;
     }
 
@@ -100,89 +180,58 @@
       font-weight: 700;
     }
 
+    .result-card p {
+      margin: 0.35rem 0 0;
+      color: var(--muted);
+    }
+
     .footer-note {
       margin-top: 1.5rem;
       font-size: 0.9rem;
-      color: #555;
+      color: var(--muted);
+    }
+
+    @media (max-width: 640px) {
+      main {
+        padding: 1.25rem;
+        border-radius: 16px;
+      }
+
+      .form-meta {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
   <main>
     <h1>CLHS Weighted Average Calculator</h1>
-    <p class="description">Enter your latest marks below. The calculator multiplies each score by its official weight (total weight = 52) and updates your weighted average instantly.</p>
+    <p class="description">Choose your form first, then enter the latest marks. For Tingkatan 4 &amp; 5, tick the elective subjects you take. The calculator uses only the checked subjects in the weighted average.</p>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Subject</th>
-          <th>Weight</th>
-          <th>Your Mark (0-100)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Bahasa Malaysia / Malay Language</td>
-          <td>6</td>
-          <td><input type="number" min="0" max="100" step="0.1" data-weight="6" placeholder="e.g. 85"></td>
-        </tr>
-        <tr>
-          <td>Bahasa Inggeris / English</td>
-          <td>5</td>
-          <td><input type="number" min="0" max="100" step="0.1" data-weight="5" placeholder="e.g. 90"></td>
-        </tr>
-        <tr>
-          <td>Bahasa Cina / Chinese</td>
-          <td>7</td>
-          <td><input type="number" min="0" max="100" step="0.1" data-weight="7" placeholder="e.g. 80"></td>
-        </tr>
-        <tr>
-          <td>Matematik / Mathematics</td>
-          <td>5</td>
-          <td><input type="number" min="0" max="100" step="0.1" data-weight="5" placeholder="e.g. 92"></td>
-        </tr>
-        <tr>
-          <td>Matematik Tambahan / Additional Mathematics</td>
-          <td>4</td>
-          <td><input type="number" min="0" max="100" step="0.1" data-weight="4" placeholder="e.g. 88"></td>
-        </tr>
-        <tr>
-          <td>Fizik / Physics</td>
-          <td>4</td>
-          <td><input type="number" min="0" max="100" step="0.1" data-weight="4" placeholder="e.g. 86"></td>
-        </tr>
-        <tr>
-          <td>Kimia / Chemistry</td>
-          <td>4</td>
-          <td><input type="number" min="0" max="100" step="0.1" data-weight="4" placeholder="e.g. 78"></td>
-        </tr>
-        <tr>
-          <td>Sejarah / History</td>
-          <td>3</td>
-          <td><input type="number" min="0" max="100" step="0.1" data-weight="3" placeholder="e.g. 74"></td>
-        </tr>
-        <tr>
-          <td>Pendidikan Moral / Moral Education</td>
-          <td>3</td>
-          <td><input type="number" min="0" max="100" step="0.1" data-weight="3" placeholder="e.g. 83"></td>
-        </tr>
-        <tr>
-          <td>Pendidikan Jasmani &amp; Kesihatan / Health &amp; P.E.</td>
-          <td>2</td>
-          <td><input type="number" min="0" max="100" step="0.1" data-weight="2" placeholder="e.g. 95"></td>
-        </tr>
-        <tr>
-          <td>Kokurikulum / Co-curriculum</td>
-          <td>5</td>
-          <td><input type="number" min="0" max="100" step="0.1" data-weight="5" placeholder="e.g. 88"></td>
-        </tr>
-        <tr>
-          <td>Sains Komputer / Computer Science</td>
-          <td>4</td>
-          <td><input type="number" min="0" max="100" step="0.1" data-weight="4" placeholder="e.g. 91"></td>
-        </tr>
-      </tbody>
-    </table>
+    <section class="controls" aria-label="Form selector and summary">
+      <div class="control-group">
+        <label for="formSelect">Select form</label>
+        <select id="formSelect" aria-label="Select your form">
+          <option value="form4-5">Tingkatan 4 &amp; 5</option>
+          <option value="form1-3">Tingkatan 1, 2 &amp; 3</option>
+        </select>
+      </div>
+      <div class="form-meta" id="formMeta"></div>
+    </section>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="selection-col">Select</th>
+            <th>Subject</th>
+            <th>Weight</th>
+            <th>Your Mark (0-100)</th>
+          </tr>
+        </thead>
+        <tbody id="subjectsBody"></tbody>
+      </table>
+    </div>
 
     <section class="results">
       <div class="result-card">
@@ -193,68 +242,250 @@
       <div class="result-card">
         <h2>Average Mark</h2>
         <div class="result-value" id="averageMark">0.00</div>
-        <p>Weighted sum ÷ 52.</p>
+        <p id="averageHint">Weighted sum ÷ selected form total weight.</p>
       </div>
     </section>
 
-    <p class="footer-note">Tip: leave a field blank if you do not have the mark yet. It will be treated as 0 until you fill it in.</p>
+    <p class="footer-note">Blank fields count as 0. Your marks are saved separately for each form, so you can switch without losing what you entered.</p>
   </main>
 
   <script>
-    const TOTAL_WEIGHT = 52;
-    const STORAGE_KEY = 'clhs-marks-v1';
-    const inputs = document.querySelectorAll('input[data-weight]');
+    const STORAGE_KEY = 'clhs-marks-v3';
+    const DEFAULT_FORM = 'form4-5';
+    const FORM_DATA = {
+      'form4-5': {
+        label: 'Tingkatan 4 & 5',
+        subjects: [
+          { key: 'bm', name: 'Bahasa Melayu / Malay Language', weight: 7, required: true },
+          { key: 'bi', name: 'Bahasa Inggeris / English', weight: 6, required: true },
+          { key: 'bc', name: 'Bahasa Cina / Chinese', weight: 8, required: true },
+          { key: 'math', name: 'Matematik / Mathematics', weight: 6, required: true },
+          { key: 'history', name: 'Sejarah / History', weight: 6, required: true },
+          { key: 'moral', name: 'Pendidikan Moral / Moral Education', weight: 4, required: true },
+          { key: 'pjpk', name: 'PJPK / Physical Education & Health', weight: 3, required: true },
+          { key: 'addmath', name: 'Matematik Tambahan / Additional Mathematics', weight: 6, required: true },
+          { key: 'bio', name: 'Biologi / Biology', weight: 6, required: false },
+          { key: 'physics', name: 'Fizik / Physics', weight: 6, required: false },
+          { key: 'chemistry', name: 'Kimia / Chemistry', weight: 6, required: false },
+          { key: 'cs', name: 'Sains Komputer / Computer Science', weight: 6, required: false },
+          { key: 'science', name: 'Sains / Science', weight: 6, required: false },
+          { key: 'economics', name: 'Ekonomi / Economics', weight: 6, required: false },
+          { key: 'accounting', name: 'Perakaunan / Principles of Accounting', weight: 6, required: false },
+        ],
+      },
+      'form1-3': {
+        label: 'Tingkatan 1, 2 & 3',
+        subjects: [
+          { key: 'bm', name: 'Bahasa Melayu / Malay Language', weight: 7, required: true },
+          { key: 'bi', name: 'Bahasa Inggeris / English', weight: 7, required: true },
+          { key: 'bc', name: 'Bahasa Cina / Chinese', weight: 8, required: true },
+          { key: 'math', name: 'Matematik / Mathematics', weight: 7, required: true },
+          { key: 'history', name: 'Sejarah / History', weight: 6, required: true },
+          { key: 'science', name: 'Sains / Science', weight: 7, required: true },
+          { key: 'rbt', name: 'RBT / ASK', weight: 4, required: true },
+          { key: 'moral', name: 'Pendidikan Moral / Moral Education', weight: 4, required: true },
+          { key: 'geo', name: 'Geografi / Geography', weight: 3, required: true },
+          { key: 'art', name: 'Pend. Seni Visual / Visual Arts', weight: 2, required: true },
+          { key: 'pjpk', name: 'PJPK / Physical Education & Health', weight: 4, required: true },
+        ],
+      },
+    };
+
+    const buildEmptyEntries = (formKey) => {
+      const entries = {};
+      getFormData(formKey).subjects.forEach((subject) => {
+        entries[subject.key] = {
+          selected: subject.required,
+          value: '',
+        };
+      });
+      return entries;
+    };
+
+    const migrateLegacyEntries = (formKey, values) => {
+      const entries = buildEmptyEntries(formKey);
+      getFormData(formKey).subjects.forEach((subject, index) => {
+        if (values[index] !== undefined && values[index] !== '') {
+          entries[subject.key].value = values[index];
+        }
+      });
+      return entries;
+    };
+
+    const getFormData = (formKey) => FORM_DATA[formKey] || FORM_DATA[DEFAULT_FORM];
+
+    Object.values(FORM_DATA).forEach((form) => {
+      form.fixedWeight = form.subjects
+        .filter((subject) => subject.required)
+        .reduce((sum, subject) => sum + subject.weight, 0);
+    });
+
+    const formSelect = document.getElementById('formSelect');
+    const formMeta = document.getElementById('formMeta');
+    const subjectsBody = document.getElementById('subjectsBody');
     const weightedSumEl = document.getElementById('weightedSum');
     const averageEl = document.getElementById('averageMark');
+    const averageHintEl = document.getElementById('averageHint');
+
+    const state = {
+      selectedForm: DEFAULT_FORM,
+      forms: {},
+    };
 
     const formatNumber = (value) => Number.parseFloat(value).toFixed(2);
 
-    const saveInputs = () => {
-      const values = Array.from(inputs).map((i) => i.value);
+    const ensureFormState = (formKey) => {
+      if (!state.forms[formKey]) {
+        state.forms[formKey] = buildEmptyEntries(formKey);
+      }
+
+      const formData = getFormData(formKey);
+      formData.subjects.forEach((subject) => {
+        if (!state.forms[formKey][subject.key]) {
+          state.forms[formKey][subject.key] = {
+            selected: subject.required,
+            value: '',
+          };
+        }
+
+        if (subject.required) {
+          state.forms[formKey][subject.key].selected = true;
+        }
+      });
+
+      return state.forms[formKey];
+    };
+
+    const saveState = () => {
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(values));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       } catch (e) {
         // ignore storage errors (e.g., quota, private mode)
       }
     };
 
-    const calculateAverage = () => {
-      let weightedTotal = 0;
-      inputs.forEach((input) => {
-        const mark = Number.parseFloat(input.value);
-        if (!Number.isNaN(mark)) {
-          weightedTotal += mark * Number(input.dataset.weight);
-        }
-      });
-      const average = weightedTotal / TOTAL_WEIGHT;
-      weightedSumEl.textContent = formatNumber(weightedTotal);
-      averageEl.textContent = formatNumber(Number.isFinite(average) ? average : 0);
-      saveInputs();
-    };
-
-    const restoreInputs = () => {
+    const loadState = () => {
       try {
         const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
-        if (Array.isArray(stored)) {
-          inputs.forEach((input, i) => {
-            // only set if a stored value exists (allow blank to stay blank)
-            if (stored[i] !== undefined && stored[i] !== '') {
-              input.value = stored[i];
-            }
-          });
+        if (stored && typeof stored === 'object') {
+          if (FORM_DATA[stored.selectedForm]) {
+            state.selectedForm = stored.selectedForm;
+          }
+
+          if (stored.forms && typeof stored.forms === 'object') {
+            state.forms = stored.forms;
+          } else if (stored.valuesByForm && typeof stored.valuesByForm === 'object') {
+            Object.entries(stored.valuesByForm).forEach(([formKey, values]) => {
+              if (FORM_DATA[formKey] && Array.isArray(values)) {
+                state.forms[formKey] = migrateLegacyEntries(formKey, values);
+              }
+            });
+          }
         }
       } catch (e) {
         // ignore JSON parse errors
       }
+    };
+
+    const renderSubjects = (formKey) => {
+      const formData = getFormData(formKey);
+      const entries = ensureFormState(formKey);
+
+      subjectsBody.innerHTML = formData.subjects.map((subject) => {
+        const entry = entries[subject.key];
+        const isSelected = subject.required || entry.selected;
+
+        return `
+        <tr>
+          <td class="selection-col">
+            ${subject.required ? '<span class="required-pill">Required</span>' : `<input type="checkbox" data-subject-key="${subject.key}" ${entry.selected ? 'checked' : ''} aria-label="Take ${subject.name}">`}
+          </td>
+          <td class="subject-cell">${subject.name}</td>
+          <td>${subject.weight}</td>
+          <td><input type="number" min="0" max="100" step="0.1" data-subject-key="${subject.key}" data-weight="${subject.weight}" placeholder="e.g. 85" aria-label="${subject.name} mark" ${isSelected ? '' : 'disabled'} value="${entry.value}"></td>
+        </tr>
+      `;
+      }).join('');
+
       calculateAverage();
     };
 
-    inputs.forEach((input) => {
-      input.addEventListener('input', calculateAverage);
+    const calculateAverage = () => {
+      const currentFormKey = state.selectedForm;
+      const formData = getFormData(currentFormKey);
+      const entries = ensureFormState(currentFormKey);
+      let weightedTotal = 0;
+      let totalWeight = 0;
+      let selectedCount = 0;
+
+      formData.subjects.forEach((subject) => {
+        const entry = entries[subject.key];
+        const isSelected = subject.required || entry.selected;
+
+        if (isSelected) {
+          selectedCount += 1;
+          totalWeight += subject.weight;
+
+          const mark = Number.parseFloat(entry.value);
+          if (!Number.isNaN(mark)) {
+            weightedTotal += mark * subject.weight;
+          }
+        }
+      });
+
+      state.forms[currentFormKey] = entries;
+      weightedSumEl.textContent = formatNumber(weightedTotal);
+      averageEl.textContent = formatNumber(totalWeight > 0 ? weightedTotal / totalWeight : 0);
+      formMeta.textContent = `${formData.label} · ${selectedCount} subjects selected · Total weight ${totalWeight}`;
+      averageHintEl.textContent = `Weighted sum ÷ ${totalWeight}.`;
+      saveState();
+    };
+
+    const restoreForm = () => {
+      loadState();
+      state.selectedForm = FORM_DATA[state.selectedForm] ? state.selectedForm : DEFAULT_FORM;
+      formSelect.value = state.selectedForm;
+      renderSubjects(state.selectedForm);
+    };
+
+    formSelect.addEventListener('change', () => {
+      state.selectedForm = formSelect.value;
+      renderSubjects(state.selectedForm);
+    });
+
+    subjectsBody.addEventListener('input', (event) => {
+      if (event.target.matches('input[data-weight]')) {
+        const formEntries = ensureFormState(state.selectedForm);
+        const subjectKey = event.target.dataset.subjectKey;
+        if (formEntries[subjectKey]) {
+          formEntries[subjectKey].value = event.target.value;
+        }
+        calculateAverage();
+      }
+    });
+
+    subjectsBody.addEventListener('change', (event) => {
+      if (event.target.matches('input[type="checkbox"][data-subject-key]')) {
+        const formEntries = ensureFormState(state.selectedForm);
+        const subjectKey = event.target.dataset.subjectKey;
+        const entry = formEntries[subjectKey];
+        if (entry) {
+          entry.selected = event.target.checked;
+          const row = event.target.closest('tr');
+          const markInput = row ? row.querySelector('input[data-weight]') : null;
+          if (markInput) {
+            markInput.disabled = !event.target.checked;
+            if (event.target.checked) {
+              markInput.focus();
+            }
+          }
+          calculateAverage();
+        }
+      }
     });
 
     // Restore saved marks on load
-    restoreInputs();
+    restoreForm();
   </script>
 </body>
 </html>
