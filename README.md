@@ -1,8 +1,10 @@
 # CLHS Marks Calculator
 
-A lightweight single-page tool that helps CLHS students compute their weighted average instantly. Pick your form, tick the elective subjects you take for Tingkatan 4 & 5, and enter your marks. The calculator multiplies each selected subject score by its official weight before averaging.
+A lightweight single-page tool that helps CLHS students compute their weighted average instantly. Pick your form, tick the elective subjects you take, and enter your marks. The calculator multiplies each selected subject score by its official weight before averaging.
 
 ## Form 1, 2 & 3
+
+### Required subjects
 
 | Subject | Weight |
 |---------|-------:|
@@ -16,9 +18,17 @@ A lightweight single-page tool that helps CLHS students compute their weighted a
 | Pendidikan Moral / Moral Education | 4 |
 | Geografi / Geography | 3 |
 | Pend. Seni Visual / Visual Arts | 2 |
-| PJPK / Physical Education & Health | 4 |
 
-Total weight: 59.
+### Elective subjects
+
+Tick the electives you take.
+
+| Subject | Weight |
+|---------|-------:|
+| PJPK / Physical Education & Health | 4 |
+| Kokurikulum / Cocurriculum | 5 |
+
+Total weight for Form 1, 2 & 3 depends on the electives selected: fixed weight 55 plus the weight of each checked elective.
 
 ## Form 4 & 5
 
@@ -32,12 +42,11 @@ Total weight: 59.
 | Matematik / Mathematics | 6 |
 | Sejarah / History | 6 |
 | Pendidikan Moral / Moral Education | 4 |
-| PJPK / Physical Education & Health | 3 |
 | Matematik Tambahan / Additional Mathematics | 6 |
 
 ### Elective subjects
 
-Tick the electives you take. Each selected elective counts with weight 6.
+Tick the electives you take.
 
 | Subject | Weight |
 |---------|-------:|
@@ -48,9 +57,11 @@ Tick the electives you take. Each selected elective counts with weight 6.
 | Sains / Science | 6 |
 | Ekonomi / Economics | 6 |
 | Perakaunan / Principles of Accounting | 6 |
+| PJPK / Physical Education & Health | 3 |
+| Kokurikulum / Cocurriculum | 5 |
 
-Total weight for Form 4 & 5 depends on the electives selected: fixed weight 46 plus 6 for each checked elective.
+Total weight for Form 4 & 5 depends on the electives selected: fixed weight 43 plus the weight of each checked elective.
 
 ## Getting Started
 
-Visit [clhs.bernardkoo.dev](https://clhs.bernardkoo.dev). Choose your form first. For Tingkatan 4 & 5, tick the elective subjects you take, then enter your marks (0–100). Blank fields count as 0 until filled. The weighted sum and average update in real time following `(Σ selected mark × weight) ÷ selected total weight`.
+Visit [clhs.bernardkoo.dev](https://clhs.bernardkoo.dev). Choose your form first, tick the elective subjects you take, then enter your marks (0–100). Blank fields count as 0 until filled. The weighted sum and average update in real time following `(Σ selected mark × weight) ÷ selected total weight`.

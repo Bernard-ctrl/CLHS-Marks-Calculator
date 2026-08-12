@@ -206,7 +206,7 @@
 <body>
   <main>
     <h1>CLHS Weighted Average Calculator</h1>
-    <p class="description">Choose your form first, then enter the latest marks. For Tingkatan 4 &amp; 5, tick the elective subjects you take. The calculator uses only the checked subjects in the weighted average.</p>
+    <p class="description">Choose your form first, tick the elective subjects you take, then enter the latest marks. The calculator uses only the checked subjects in the weighted average.</p>
 
     <section class="controls" aria-label="Form selector and summary">
       <div class="control-group">
@@ -262,7 +262,7 @@
           { key: 'math', name: 'Matematik / Mathematics', weight: 6, required: true },
           { key: 'history', name: 'Sejarah / History', weight: 6, required: true },
           { key: 'moral', name: 'Pendidikan Moral / Moral Education', weight: 4, required: true },
-          { key: 'pjpk', name: 'PJPK / Physical Education & Health', weight: 3, required: true },
+          { key: 'pjpk', name: 'PJPK / Physical Education & Health', weight: 3, required: false },
           { key: 'addmath', name: 'Matematik Tambahan / Additional Mathematics', weight: 6, required: true },
           { key: 'bio', name: 'Biologi / Biology', weight: 6, required: false },
           { key: 'physics', name: 'Fizik / Physics', weight: 6, required: false },
@@ -271,6 +271,7 @@
           { key: 'science', name: 'Sains / Science', weight: 6, required: false },
           { key: 'economics', name: 'Ekonomi / Economics', weight: 6, required: false },
           { key: 'accounting', name: 'Perakaunan / Principles of Accounting', weight: 6, required: false },
+          { key: 'cocurriculum', name: 'Kokurikulum / Cocurriculum', weight: 5, required: false }
         ],
       },
       'form1-3': {
@@ -286,7 +287,8 @@
           { key: 'moral', name: 'Pendidikan Moral / Moral Education', weight: 4, required: true },
           { key: 'geo', name: 'Geografi / Geography', weight: 3, required: true },
           { key: 'art', name: 'Pend. Seni Visual / Visual Arts', weight: 2, required: true },
-          { key: 'pjpk', name: 'PJPK / Physical Education & Health', weight: 4, required: true },
+          { key: 'pjpk', name: 'PJPK / Physical Education & Health', weight: 4, required: false },
+          { key: 'cocurriculum', name: 'Kokurikulum / Cocurriculum', weight: 5, required: false }
         ],
       },
     };
