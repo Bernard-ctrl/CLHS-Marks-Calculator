@@ -24,8 +24,9 @@
       color: var(--ink);
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
     }
 
     main {
@@ -201,6 +202,35 @@
         width: 100%;
       }
     }
+    
+    /* Footer Styles */
+ .home-footer, .app-footer {
+  width: min(980px, 100%);
+  text-align: center;
+  padding: 2rem 1rem 0;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-top: 2.5rem;
+}
+
+.home-footer a, .app-footer a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.15s ease;
+}
+
+.home-footer a:hover, .app-footer a:hover {
+  color: #0b3a63;
+  text-decoration: underline;
+}
+
+.app-footer {
+  margin-top: 4rem;
+  margin-bottom: 0;
+}
+
   </style>
 </head>
 <body>
@@ -489,5 +519,8 @@
     // Restore saved marks on load
     restoreForm();
   </script>
+        <footer class="app-footer">
+        <p>Created by <a href="https://bkhy.pages.dev" target="_blank" rel="noopener noreferrer">BK Digital Solutions</a></p>
+      </footer>
 </body>
 </html>
