@@ -64,4 +64,4 @@ Total weight for Form 4 & 5 depends on the electives selected: fixed weight 43 p
 
 ## Getting Started
 
-Visit [clhs.bernardkoo.dev](https://clhs.bernardkoo.dev). Choose your form first, tick the elective subjects you take, then enter your marks (0–100). Blank fields count as 0 until filled. The weighted sum and average update in real time following `(Σ selected mark × weight) ÷ selected total weight`.
+Visit [clhs.bernardkoo.dev](https://clhscalculator.pages.dev). Choose your form first, tick the elective subjects you take, then enter your marks (0–100). Blank fields count as 0 until filled. The weighted sum and average update in real time following `(Σ selected mark × weight) ÷ selected total weight`.
