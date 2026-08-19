@@ -42,7 +42,6 @@ Total weight for Form 1, 2 & 3 depends on the electives selected: fixed weight 5
 | Matematik / Mathematics | 6 |
 | Sejarah / History | 6 |
 | Pendidikan Moral / Moral Education | 4 |
-| Matematik Tambahan / Additional Mathematics | 6 |
 
 ### Elective subjects
 
@@ -50,6 +49,7 @@ Tick the electives you take.
 
 | Subject | Weight |
 |---------|-------:|
+| Matematik Tambahan / Additional Mathematics | 6 |
 | Biologi / Biology | 6 |
 | Fizik / Physics | 6 |
 | Kimia / Chemistry | 6 |
@@ -60,7 +60,7 @@ Tick the electives you take.
 | PJPK / Physical Education & Health | 3 |
 | Kokurikulum / Cocurriculum | 5 |
 
-Total weight for Form 4 & 5 depends on the electives selected: fixed weight 43 plus the weight of each checked elective.
+Total weight for Form 4 & 5 depends on the electives selected: fixed weight 37 plus the weight of each checked elective.
 
 ## Getting Started
 
