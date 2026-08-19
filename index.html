@@ -133,6 +133,23 @@
       font-size: 1rem;
     }
 
+    input[type="number"].invalid {
+      border-color: #dc3545;
+      background: #fff5f5;
+    }
+
+    .mark-error {
+      display: none;
+      color: #dc3545;
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      font-weight: 500;
+    }
+
+    .mark-error.visible {
+      display: block;
+    }
+
     input[type="checkbox"] {
       width: 1.05rem;
       height: 1.05rem;
@@ -434,7 +451,10 @@
           </td>
           <td class="subject-cell">${subject.name}</td>
           <td>${subject.weight}</td>
-          <td><input type="number" min="0" max="100" step="0.1" data-subject-key="${subject.key}" data-weight="${subject.weight}" placeholder="e.g. 85" aria-label="${subject.name} mark" ${isSelected ? '' : 'disabled'} value="${entry.value}"></td>
+          <td>
+            <input type="number" min="0" max="100" step="0.1" data-subject-key="${subject.key}" data-weight="${subject.weight}" placeholder="e.g. 85" aria-label="${subject.name} mark" ${isSelected ? '' : 'disabled'} value="${entry.value}">
+            <span class="mark-error" data-error-for="${subject.key}"></span>
+          </td>
         </tr>
       `;
       }).join('');
@@ -459,7 +479,7 @@
           totalWeight += subject.weight;
 
           const mark = Number.parseFloat(entry.value);
-          if (!Number.isNaN(mark)) {
+          if (!Number.isNaN(mark) && mark >= 0 && mark <= 100) {
             weightedTotal += mark * subject.weight;
           }
         }
@@ -489,9 +509,38 @@
       if (event.target.matches('input[data-weight]')) {
         const formEntries = ensureFormState(state.selectedForm);
         const subjectKey = event.target.dataset.subjectKey;
+        const markInput = event.target;
+        const errorEl = markInput.parentElement.querySelector(`.mark-error[data-error-for="${subjectKey}"]`);
+
         if (formEntries[subjectKey]) {
           formEntries[subjectKey].value = event.target.value;
         }
+
+        // Validate mark range
+        const rawValue = event.target.value.trim();
+        if (rawValue !== '') {
+          const mark = Number.parseFloat(rawValue);
+          if (Number.isNaN(mark)) {
+            markInput.classList.add('invalid');
+            if (errorEl) errorEl.textContent = 'Please enter a valid number';
+            errorEl?.classList.add('visible');
+          } else if (mark < 0) {
+            markInput.classList.add('invalid');
+            if (errorEl) errorEl.textContent = 'Mark cannot be less than 0';
+            errorEl?.classList.add('visible');
+          } else if (mark > 100) {
+            markInput.classList.add('invalid');
+            if (errorEl) errorEl.textContent = 'Mark cannot exceed 100';
+            errorEl?.classList.add('visible');
+          } else {
+            markInput.classList.remove('invalid');
+            errorEl?.classList.remove('visible');
+          }
+        } else {
+          markInput.classList.remove('invalid');
+          errorEl?.classList.remove('visible');
+        }
+
         calculateAverage();
       }
     });
